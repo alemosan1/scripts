@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+ redis-cli -p 7379 info 2000000000
