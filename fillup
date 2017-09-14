@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+
+rm claves.txt
+
+COUNTER=0
+NUMCERT=0
+SIZEKEY=1
+
+if [ $# -eq 2 ] ; then
+        SIZEKEY=$1
+	NUMCERT=$2
+
+elif [ $# -eq 3 ]; then
+	SIZEKEY=$1
+	NUMCERT=$2
+	let COUNTER=COUNTER+200000
+	let NUMCERT=NUMCERT+200000
+	
+else 
+    echo 'Please, indicate the size of the value in the first argument and the number of certificates in the second one'
+    exit 0
+
+	
+fi
+
+#echo $SIZEKEY
+
+myString=`head -c $SIZEKEY < /dev/zero | tr '\0' '\170'`
+
+# echo $myString
+
+
+while [ $COUNTER -lt $NUMCERT ]; do
+	clave=`printf "key:%012d\n" $COUNTER`
+	#echo "SET $clave ----> $myString \n "
+   	echo SET $clave $myString >> claves.txt
+
+        let COUNTER=COUNTER+1
+done
+
